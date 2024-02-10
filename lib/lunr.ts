@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-(function () {
+((function(this: any) {
   /**
    * A convenience function for configuring and constructing
    * a new lunr Index.
@@ -36,17 +36,21 @@
    * @see {@link lunr.stemmer}
    * @namespace {function} lunr
    */
-  var lunr = function (config) {
+  var lunr = function (config: any) {
+    // @ts-expect-error TS(7022): 'builder' implicitly has type 'any' because it doe... Remove this comment to see the full error message
     var builder = new lunr.Builder();
 
+    // @ts-expect-error TS(2339): Property 'trimmer' does not exist on type '(config... Remove this comment to see the full error message
     builder.pipeline.add(lunr.trimmer, lunr.stopWordFilter, lunr.stemmer);
 
+    // @ts-expect-error TS(2339): Property 'stemmer' does not exist on type '(config... Remove this comment to see the full error message
     builder.searchPipeline.add(lunr.stemmer);
 
     config.call(builder, builder);
     return builder.build();
   };
 
+  // @ts-expect-error TS(2339): Property 'version' does not exist on type '(config... Remove this comment to see the full error message
   lunr.version = "2.3.9";
   /*!
    * lunr.utils
@@ -57,6 +61,7 @@
    * A namespace containing utils for the rest of the lunr library
    * @namespace lunr.utils
    */
+  // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.utils = {};
 
   /**
@@ -66,9 +71,10 @@
    * @memberOf lunr.utils
    * @function
    */
+  // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.utils.warn = (function (global) {
     /* eslint-disable no-console */
-    return function (message) {
+    return function (message: any) {
       if (global.console && console.warn) {
         console.warn(message);
       }
@@ -87,7 +93,8 @@
    * @return {String} string representation of the passed object.
    * @memberOf lunr.utils
    */
-  lunr.utils.asString = function (obj) {
+  // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.utils.asString = function (obj: any) {
     if (obj === void 0 || obj === null) {
       return "";
     } else {
@@ -111,7 +118,8 @@
    * @throws {TypeError} when a nested object is passed.
    * @memberOf Utils
    */
-  lunr.utils.clone = function (obj) {
+  // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.utils.clone = function (obj: any) {
     if (obj === null || obj === undefined) {
       return obj;
     }
@@ -144,15 +152,19 @@
 
     return clone;
   };
-  lunr.FieldRef = function (docRef, fieldName, stringValue) {
+  // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.FieldRef = function (docRef: any, fieldName: any, stringValue: any) {
     this.docRef = docRef;
     this.fieldName = fieldName;
     this._stringValue = stringValue;
   };
 
+  // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.FieldRef.joiner = "/";
 
-  lunr.FieldRef.fromString = function (s) {
+  // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.FieldRef.fromString = function (s: any) {
+    // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
     var n = s.indexOf(lunr.FieldRef.joiner);
 
     if (n === -1) {
@@ -162,11 +174,14 @@
     var fieldRef = s.slice(0, n),
       docRef = s.slice(n + 1);
 
+    // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
     return new lunr.FieldRef(docRef, fieldRef, s);
   };
 
+  // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.FieldRef.prototype.toString = function () {
     if (this._stringValue == undefined) {
+      // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
       this._stringValue = this.fieldName + lunr.FieldRef.joiner + this.docRef;
     }
 
@@ -182,7 +197,8 @@
    *
    * @constructor
    */
-  lunr.Set = function (elements) {
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
+  lunr.Set = function (elements: any) {
     this.elements = Object.create(null);
 
     if (elements) {
@@ -203,8 +219,9 @@
    * @readonly
    * @type {lunr.Set}
    */
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
   lunr.Set.complete = {
-    intersect: function (other) {
+    intersect: function (other: any) {
       return other;
     },
 
@@ -224,12 +241,13 @@
    * @readonly
    * @type {lunr.Set}
    */
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
   lunr.Set.empty = {
     intersect: function () {
       return this;
     },
 
-    union: function (other) {
+    union: function (other: any) {
       return other;
     },
 
@@ -244,7 +262,8 @@
    * @param {object} object - Object whose presence in this set is to be tested.
    * @returns {boolean} - True if this set contains the specified object.
    */
-  lunr.Set.prototype.contains = function (object) {
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
+  lunr.Set.prototype.contains = function (object: any) {
     return !!this.elements[object];
   };
 
@@ -256,16 +275,19 @@
    * @returns {lunr.Set} a new set that is the intersection of this and the specified set.
    */
 
-  lunr.Set.prototype.intersect = function (other) {
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
+  lunr.Set.prototype.intersect = function (other: any) {
     var a,
       b,
       elements,
       intersection = [];
 
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     if (other === lunr.Set.complete) {
       return this;
     }
 
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     if (other === lunr.Set.empty) {
       return other;
     }
@@ -287,6 +309,7 @@
       }
     }
 
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     return new lunr.Set(intersection);
   };
 
@@ -297,15 +320,20 @@
    * @return {lunr.Set} a new set that is the union of this and the specified set.
    */
 
-  lunr.Set.prototype.union = function (other) {
+  // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
+  lunr.Set.prototype.union = function (other: any) {
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     if (other === lunr.Set.complete) {
+      // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
       return lunr.Set.complete;
     }
 
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     if (other === lunr.Set.empty) {
       return this;
     }
 
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     return new lunr.Set(
       Object.keys(this.elements).concat(Object.keys(other.elements))
     );
@@ -318,7 +346,8 @@
    * @param {object} posting - The posting for a given term
    * @param {number} documentCount - The total number of documents.
    */
-  lunr.idf = function (posting, documentCount) {
+  // @ts-expect-error TS(2339): Property 'idf' does not exist on type '(config: an... Remove this comment to see the full error message
+  lunr.idf = function (posting: any, documentCount: any) {
     var documentsWithTerm = 0;
 
     for (var fieldName in posting) {
@@ -340,7 +369,8 @@
    * @param {string} [str=''] - The string token being wrapped.
    * @param {object} [metadata={}] - Metadata associated with this token.
    */
-  lunr.Token = function (str, metadata) {
+  // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Token = function (str: any, metadata: any) {
     this.str = str || "";
     this.metadata = metadata || {};
   };
@@ -350,6 +380,7 @@
    *
    * @returns {string}
    */
+  // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Token.prototype.toString = function () {
     return this.str;
   };
@@ -374,7 +405,8 @@
    * @param {lunr.Token~updateFunction} fn - A function to apply to the token string.
    * @returns {lunr.Token}
    */
-  lunr.Token.prototype.update = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Token.prototype.update = function (fn: any) {
     this.str = fn(this.str, this.metadata);
     return this;
   };
@@ -386,12 +418,14 @@
    * @param {lunr.Token~updateFunction} [fn] - An optional function to apply to the cloned token.
    * @returns {lunr.Token}
    */
-  lunr.Token.prototype.clone = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Token.prototype.clone = function (fn: any) {
     fn =
       fn ||
-      function (s) {
+      function (s: any) {
         return s;
       };
+    // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
     return new lunr.Token(fn(this.str, this.metadata), this.metadata);
   };
   /*!
@@ -417,15 +451,19 @@
    * @returns {lunr.Token[]}
    * @see {@link lunr.Pipeline}
    */
-  lunr.tokenizer = function (obj, metadata) {
+  // @ts-expect-error TS(2339): Property 'tokenizer' does not exist on type '(conf... Remove this comment to see the full error message
+  lunr.tokenizer = function (obj: any, metadata: any) {
     if (obj == null || obj == undefined) {
       return [];
     }
 
     if (Array.isArray(obj)) {
       return obj.map(function (t) {
+        // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
         return new lunr.Token(
+          // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
           lunr.utils.asString(t).toLowerCase(),
+          // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
           lunr.utils.clone(metadata)
         );
       });
@@ -439,13 +477,16 @@
       var char = str.charAt(sliceEnd),
         sliceLength = sliceEnd - sliceStart;
 
+      // @ts-expect-error TS(2339): Property 'tokenizer' does not exist on type '(conf... Remove this comment to see the full error message
       if (char.match(lunr.tokenizer.separator) || sliceEnd == len) {
         if (sliceLength > 0) {
+          // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
           var tokenMetadata = lunr.utils.clone(metadata) || {};
           tokenMetadata["position"] = [sliceStart, sliceLength];
           tokenMetadata["index"] = tokens.length;
 
           tokens.push(
+            // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
             new lunr.Token(str.slice(sliceStart, sliceEnd), tokenMetadata)
           );
         }
@@ -464,6 +505,7 @@
    * @static
    * @see lunr.tokenizer
    */
+  // @ts-expect-error TS(2339): Property 'tokenizer' does not exist on type '(conf... Remove this comment to see the full error message
   lunr.tokenizer.separator = /[\s\-]+/;
   /*!
    * lunr.Pipeline
@@ -499,10 +541,12 @@
    *
    * @constructor
    */
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline = function () {
     this._stack = [];
   };
 
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.registeredFunctions = Object.create(null);
 
   /**
@@ -538,12 +582,15 @@
    * @param {lunr.PipelineFunction} fn - The function to check for.
    * @param {String} label - The label to register this function with
    */
-  lunr.Pipeline.registerFunction = function (fn, label) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.registerFunction = function (fn: any, label: any) {
     if (label in this.registeredFunctions) {
+      // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
       lunr.utils.warn("Overwriting existing registered function: " + label);
     }
 
     fn.label = label;
+    // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
     lunr.Pipeline.registeredFunctions[fn.label] = fn;
   };
 
@@ -553,10 +600,12 @@
    * @param {lunr.PipelineFunction} fn - The function to check for.
    * @private
    */
-  lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.warnIfFunctionNotRegistered = function (fn: any) {
     var isRegistered = fn.label && fn.label in this.registeredFunctions;
 
     if (!isRegistered) {
+      // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
       lunr.utils.warn(
         "Function is not registered with pipeline. This may cause problems when serialising the index.\n",
         fn
@@ -574,10 +623,13 @@
    * @param {Object} serialised - The serialised pipeline to load.
    * @returns {lunr.Pipeline}
    */
-  lunr.Pipeline.load = function (serialised) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.load = function (serialised: any) {
+    // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
     var pipeline = new lunr.Pipeline();
 
-    serialised.forEach(function (fnName) {
+    serialised.forEach(function (fnName: any) {
+      // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
       var fn = lunr.Pipeline.registeredFunctions[fnName];
 
       if (fn) {
@@ -597,10 +649,12 @@
    *
    * @param {lunr.PipelineFunction[]} functions - Any number of functions to add to the pipeline.
    */
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.prototype.add = function () {
     var fns = Array.prototype.slice.call(arguments);
 
-    fns.forEach(function (fn) {
+    fns.forEach(function(this: any, fn) {
+      // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
       lunr.Pipeline.warnIfFunctionNotRegistered(fn);
       this._stack.push(fn);
     }, this);
@@ -615,7 +669,9 @@
    * @param {lunr.PipelineFunction} existingFn - A function that already exists in the pipeline.
    * @param {lunr.PipelineFunction} newFn - The new function to add to the pipeline.
    */
-  lunr.Pipeline.prototype.after = function (existingFn, newFn) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.prototype.after = function (existingFn: any, newFn: any) {
+    // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
     lunr.Pipeline.warnIfFunctionNotRegistered(newFn);
 
     var pos = this._stack.indexOf(existingFn);
@@ -636,7 +692,9 @@
    * @param {lunr.PipelineFunction} existingFn - A function that already exists in the pipeline.
    * @param {lunr.PipelineFunction} newFn - The new function to add to the pipeline.
    */
-  lunr.Pipeline.prototype.before = function (existingFn, newFn) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.prototype.before = function (existingFn: any, newFn: any) {
+    // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
     lunr.Pipeline.warnIfFunctionNotRegistered(newFn);
 
     var pos = this._stack.indexOf(existingFn);
@@ -652,7 +710,8 @@
    *
    * @param {lunr.PipelineFunction} fn The function to remove from the pipeline.
    */
-  lunr.Pipeline.prototype.remove = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.prototype.remove = function (fn: any) {
     var pos = this._stack.indexOf(fn);
     if (pos == -1) {
       return;
@@ -668,7 +727,8 @@
    * @param {Array} tokens The tokens to run through the pipeline.
    * @returns {Array}
    */
-  lunr.Pipeline.prototype.run = function (tokens) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.prototype.run = function (tokens: any) {
     var stackLength = this._stack.length;
 
     for (var i = 0; i < stackLength; i++) {
@@ -705,10 +765,12 @@
    * passed to the pipeline.
    * @returns {string[]}
    */
-  lunr.Pipeline.prototype.runString = function (str, metadata) {
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.Pipeline.prototype.runString = function (str: any, metadata: any) {
+    // @ts-expect-error TS(2339): Property 'Token' does not exist on type '(config: ... Remove this comment to see the full error message
     var token = new lunr.Token(str, metadata);
 
-    return this.run([token]).map(function (t) {
+    return this.run([token]).map(function (t: any) {
       return t.toString();
     });
   };
@@ -717,6 +779,7 @@
    * Resets the pipeline by removing any existing processors.
    *
    */
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.prototype.reset = function () {
     this._stack = [];
   };
@@ -728,8 +791,10 @@
    *
    * @returns {Array}
    */
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.prototype.toJSON = function () {
-    return this._stack.map(function (fn) {
+    return this._stack.map(function (fn: any) {
+      // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
       lunr.Pipeline.warnIfFunctionNotRegistered(fn);
 
       return fn.label;
@@ -756,7 +821,8 @@
    * @constructor
    * @param {Number[]} [elements] - The flat list of element index and element value pairs.
    */
-  lunr.Vector = function (elements) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector = function (elements: any) {
     this._magnitude = 0;
     this.elements = elements || [];
   };
@@ -771,7 +837,8 @@
    * @param {Number} insertIdx - The index at which the element should be inserted.
    * @returns {Number}
    */
-  lunr.Vector.prototype.positionForIndex = function (index) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector.prototype.positionForIndex = function (index: any) {
     // For an empty vector the tuple can be inserted at the beginning
     if (this.elements.length == 0) {
       return 0;
@@ -823,7 +890,8 @@
    * @param {Number} insertIdx - The index at which the element should be inserted.
    * @param {Number} val - The value to be inserted into the vector.
    */
-  lunr.Vector.prototype.insert = function (insertIdx, val) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector.prototype.insert = function (insertIdx: any, val: any) {
     this.upsert(insertIdx, val, function () {
       throw "duplicate index";
     });
@@ -837,7 +905,8 @@
    * @param {function} fn - A function that is called for updates, the existing value and the
    * requested value are passed as arguments
    */
-  lunr.Vector.prototype.upsert = function (insertIdx, val, fn) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector.prototype.upsert = function (insertIdx: any, val: any, fn: any) {
     this._magnitude = 0;
     var position = this.positionForIndex(insertIdx);
 
@@ -853,6 +922,7 @@
    *
    * @returns {Number}
    */
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
   lunr.Vector.prototype.magnitude = function () {
     if (this._magnitude) return this._magnitude;
 
@@ -873,7 +943,8 @@
    * @param {lunr.Vector} otherVector - The vector to compute the dot product with.
    * @returns {Number}
    */
-  lunr.Vector.prototype.dot = function (otherVector) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector.prototype.dot = function (otherVector: any) {
     var dotProduct = 0,
       a = this.elements,
       b = otherVector.elements,
@@ -907,7 +978,8 @@
    * similarity with.
    * @returns {Number}
    */
-  lunr.Vector.prototype.similarity = function (otherVector) {
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
+  lunr.Vector.prototype.similarity = function (otherVector: any) {
     return this.dot(otherVector) / this.magnitude() || 0;
   };
 
@@ -916,6 +988,7 @@
    *
    * @returns {Number[]}
    */
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
   lunr.Vector.prototype.toArray = function () {
     var output = new Array(this.elements.length / 2);
 
@@ -931,6 +1004,7 @@
    *
    * @returns {Number[]}
    */
+  // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
   lunr.Vector.prototype.toJSON = function () {
     return this.elements;
   };
@@ -952,6 +1026,7 @@
    * @see {@link lunr.Pipeline}
    * @function
    */
+  // @ts-expect-error TS(2339): Property 'stemmer' does not exist on type '(config... Remove this comment to see the full error message
   lunr.stemmer = (function () {
     var step2list = {
         ational: "ate",
@@ -1022,7 +1097,7 @@
     var re_5_1 = /ll$/;
     var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
 
-    var porterStemmer = function porterStemmer(w) {
+    var porterStemmer = function porterStemmer(w: any) {
       var stem, suffix, firstch, re, re2, re3, re4;
 
       if (w.length < 3) {
@@ -1154,11 +1229,12 @@
       return w;
     };
 
-    return function (token) {
+    return function (token: any) {
       return token.update(porterStemmer);
     };
   })();
 
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.registerFunction(lunr.stemmer, "stemmer");
   /*!
    * lunr.stopWordFilter
@@ -1178,13 +1254,14 @@
    * @see lunr.Pipeline
    * @see lunr.stopWordFilter
    */
-  lunr.generateStopWordFilter = function (stopWords) {
-    var words = stopWords.reduce(function (memo, stopWord) {
+  // @ts-expect-error TS(2339): Property 'generateStopWordFilter' does not exist o... Remove this comment to see the full error message
+  lunr.generateStopWordFilter = function (stopWords: any) {
+    var words = stopWords.reduce(function (memo: any, stopWord: any) {
       memo[stopWord] = stopWord;
       return memo;
     }, {});
 
-    return function (token) {
+    return function (token: any) {
       if (token && words[token.toString()] !== token.toString()) return token;
     };
   };
@@ -1202,6 +1279,7 @@
    * @returns {lunr.Token}
    * @see {@link lunr.Pipeline}
    */
+  // @ts-expect-error TS(2339): Property 'stopWordFilter' does not exist on type '... Remove this comment to see the full error message
   lunr.stopWordFilter = lunr.generateStopWordFilter([
     "a",
     "able",
@@ -1324,6 +1402,7 @@
     "your",
   ]);
 
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.registerFunction(lunr.stopWordFilter, "stopWordFilter");
   /*!
    * lunr.trimmer
@@ -1345,12 +1424,14 @@
    * @returns {lunr.Token}
    * @see lunr.Pipeline
    */
-  lunr.trimmer = function (token) {
-    return token.update(function (s) {
+  // @ts-expect-error TS(2339): Property 'trimmer' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.trimmer = function (token: any) {
+    return token.update(function (s: any) {
       return s.replace(/^\W+/, "").replace(/\W+$/, "");
     });
   };
 
+  // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.Pipeline.registerFunction(lunr.trimmer, "trimmer");
   /*!
    * lunr.TokenSet
@@ -1378,10 +1459,13 @@
    *
    * @constructor
    */
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet = function () {
     this.final = false;
     this.edges = {};
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type '(config: any... Remove this comment to see the full error message
     this.id = lunr.TokenSet._nextId;
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     lunr.TokenSet._nextId += 1;
   };
 
@@ -1393,6 +1477,7 @@
    *
    * @private
    */
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet._nextId = 1;
 
   /**
@@ -1402,7 +1487,9 @@
    * @returns {lunr.TokenSet}
    * @throws Will throw an error if the input array is not sorted.
    */
-  lunr.TokenSet.fromArray = function (arr) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.fromArray = function (arr: any) {
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     var builder = new lunr.TokenSet.Builder();
 
     for (var i = 0, len = arr.length; i < len; i++) {
@@ -1422,10 +1509,13 @@
    * @param {number} [clause.editDistance] - The optional edit distance for the term.
    * @returns {lunr.TokenSet}
    */
-  lunr.TokenSet.fromClause = function (clause) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.fromClause = function (clause: any) {
     if ("editDistance" in clause) {
+      // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
       return lunr.TokenSet.fromFuzzyString(clause.term, clause.editDistance);
     } else {
+      // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
       return lunr.TokenSet.fromString(clause.term);
     }
   };
@@ -1445,7 +1535,9 @@
    * @param {number} editDistance - The allowed edit distance to match.
    * @returns {lunr.Vector}
    */
-  lunr.TokenSet.fromFuzzyString = function (str, editDistance) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.fromFuzzyString = function (str: any, editDistance: any) {
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     var root = new lunr.TokenSet();
 
     var stack = [
@@ -1467,6 +1559,7 @@
         if (char in frame.node.edges) {
           noEditNode = frame.node.edges[char];
         } else {
+          // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
           noEditNode = new lunr.TokenSet();
           frame.node.edges[char] = noEditNode;
         }
@@ -1490,6 +1583,7 @@
       if ("*" in frame.node.edges) {
         var insertionNode = frame.node.edges["*"];
       } else {
+        // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
         var insertionNode = new lunr.TokenSet();
         frame.node.edges["*"] = insertionNode;
       }
@@ -1528,6 +1622,7 @@
         if ("*" in frame.node.edges) {
           var substitutionNode = frame.node.edges["*"];
         } else {
+          // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
           var substitutionNode = new lunr.TokenSet();
           frame.node.edges["*"] = substitutionNode;
         }
@@ -1554,6 +1649,7 @@
         if (charB in frame.node.edges) {
           transposeNode = frame.node.edges[charB];
         } else {
+          // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
           transposeNode = new lunr.TokenSet();
           frame.node.edges[charB] = transposeNode;
         }
@@ -1583,7 +1679,9 @@
    * @param {string} str - The string to create a TokenSet from.
    * @returns {lunr.TokenSet}
    */
-  lunr.TokenSet.fromString = function (str) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.fromString = function (str: any) {
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     var node = new lunr.TokenSet(),
       root = node;
 
@@ -1603,6 +1701,7 @@
         node.edges[char] = node;
         node.final = final;
       } else {
+        // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
         var next = new lunr.TokenSet();
         next.final = final;
 
@@ -1624,6 +1723,7 @@
    *
    * @returns {string[]}
    */
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet.prototype.toArray = function () {
     var words = [];
 
@@ -1671,6 +1771,7 @@
    *
    * @returns {string}
    */
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet.prototype.toString = function () {
     // NOTE: Using Object.keys here as this.edges is very likely
     // to enter 'hash-mode' with many keys being added
@@ -1708,7 +1809,9 @@
    * @param {lunr.TokenSet} b - An other TokenSet to intersect with.
    * @returns {lunr.TokenSet}
    */
-  lunr.TokenSet.prototype.intersect = function (b) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.prototype.intersect = function (b: any) {
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     var output = new lunr.TokenSet(),
       frame = undefined;
 
@@ -1754,6 +1857,7 @@
               // no edge exists yet, must create one
               // set the finality bit and insert it
               // into the output
+              // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
               next = new lunr.TokenSet();
               next.final = final;
               frame.output.edges[nEdge] = next;
@@ -1771,14 +1875,17 @@
 
     return output;
   };
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet.Builder = function () {
     this.previousWord = "";
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     this.root = new lunr.TokenSet();
     this.uncheckedNodes = [];
     this.minimizedNodes = {};
   };
 
-  lunr.TokenSet.Builder.prototype.insert = function (word) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.Builder.prototype.insert = function (word: any) {
     var node,
       commonPrefix = 0;
 
@@ -1800,6 +1907,7 @@
     }
 
     for (var i = commonPrefix; i < word.length; i++) {
+      // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
       var nextNode = new lunr.TokenSet(),
         char = word[i];
 
@@ -1818,11 +1926,13 @@
     this.previousWord = word;
   };
 
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
   lunr.TokenSet.Builder.prototype.finish = function () {
     this.minimize(0);
   };
 
-  lunr.TokenSet.Builder.prototype.minimize = function (downTo) {
+  // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
+  lunr.TokenSet.Builder.prototype.minimize = function (downTo: any) {
     for (var i = this.uncheckedNodes.length - 1; i >= downTo; i--) {
       var node = this.uncheckedNodes[i],
         childKey = node.child.toString();
@@ -1861,7 +1971,8 @@
    * @param {string[]} attrs.fields - The names of indexed document fields.
    * @param {lunr.Pipeline} attrs.pipeline - The pipeline to use for search terms.
    */
-  lunr.Index = function (attrs) {
+  // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Index = function (attrs: any) {
     this.invertedIndex = attrs.invertedIndex;
     this.fieldVectors = attrs.fieldVectors;
     this.tokenSet = attrs.tokenSet;
@@ -1940,8 +2051,10 @@
    * @throws {lunr.QueryParseError} If the passed query string cannot be parsed.
    * @returns {lunr.Index~Result[]}
    */
-  lunr.Index.prototype.search = function (queryString) {
-    return this.query(function (query) {
+  // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Index.prototype.search = function (queryString: any) {
+    return this.query(function (query: any) {
+      // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
       var parser = new lunr.QueryParser(queryString, query);
       parser.parse();
     });
@@ -1972,7 +2085,8 @@
    * @param {lunr.Index~queryBuilder} fn - A function that is used to build the query.
    * @returns {lunr.Index~Result[]}
    */
-  lunr.Index.prototype.query = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Index.prototype.query = function (fn: any) {
     // for each query clause
     // * process terms
     // * expand terms from token set
@@ -1980,6 +2094,7 @@
     // * get document vectors
     // * score documents
 
+    // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
     var query = new lunr.Query(this.fields),
       matchingFields = Object.create(null),
       queryVectors = Object.create(null),
@@ -1993,6 +2108,7 @@
      * queries.
      */
     for (var i = 0; i < this.fields.length; i++) {
+      // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
       queryVectors[this.fields[i]] = new lunr.Vector();
     }
 
@@ -2009,6 +2125,7 @@
        */
       var clause = query.clauses[i],
         terms = null,
+        // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
         clauseMatches = lunr.Set.empty;
 
       if (clause.usePipeline) {
@@ -2035,6 +2152,7 @@
          * be used to intersect the indexes token set to get a list of terms
          * to lookup in the inverted index
          */
+        // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
         var termTokenSet = lunr.TokenSet.fromClause(clause),
           expandedTerms = this.tokenSet.intersect(termTokenSet).toArray();
 
@@ -2046,10 +2164,12 @@
          */
         if (
           expandedTerms.length === 0 &&
+          // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
           clause.presence === lunr.Query.presence.REQUIRED
         ) {
           for (var k = 0; k < clause.fields.length; k++) {
             var field = clause.fields[k];
+            // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
             requiredMatches[field] = lunr.Set.empty;
           }
 
@@ -2078,6 +2198,7 @@
               fieldPosting = posting[field],
               matchingDocumentRefs = Object.keys(fieldPosting),
               termField = expandedTerm + "/" + field,
+              // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
               matchingDocumentsSet = new lunr.Set(matchingDocumentRefs);
 
             /*
@@ -2085,10 +2206,12 @@
              * documents are added to the set of required matches for this clause.
              *
              */
+            // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
             if (clause.presence == lunr.Query.presence.REQUIRED) {
               clauseMatches = clauseMatches.union(matchingDocumentsSet);
 
               if (requiredMatches[field] === undefined) {
+                // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
                 requiredMatches[field] = lunr.Set.complete;
               }
             }
@@ -2098,8 +2221,10 @@
              * documents are added to the set of prohibited matches for this field,
              * creating that set if it does not yet exist.
              */
+            // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
             if (clause.presence == lunr.Query.presence.PROHIBITED) {
               if (prohibitedMatches[field] === undefined) {
+                // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
                 prohibitedMatches[field] = lunr.Set.empty;
               }
 
@@ -2124,7 +2249,7 @@
             queryVectors[field].upsert(
               termIndex,
               clause.boost,
-              function (a, b) {
+              function (a: any, b: any) {
                 return a + b;
               }
             );
@@ -2145,6 +2270,7 @@
                * results
                */
               var matchingDocumentRef = matchingDocumentRefs[l],
+                // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
                 matchingFieldRef = new lunr.FieldRef(
                   matchingDocumentRef,
                   field
@@ -2155,6 +2281,7 @@
               if (
                 (fieldMatch = matchingFields[matchingFieldRef]) === undefined
               ) {
+                // @ts-expect-error TS(2339): Property 'MatchData' does not exist on type '(conf... Remove this comment to see the full error message
                 matchingFields[matchingFieldRef] = new lunr.MatchData(
                   expandedTerm,
                   field,
@@ -2176,6 +2303,7 @@
        * the clause terms presence is required in _any_ of the fields not _all_ of the
        * fields.
        */
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       if (clause.presence === lunr.Query.presence.REQUIRED) {
         for (var k = 0; k < clause.fields.length; k++) {
           var field = clause.fields[k];
@@ -2190,7 +2318,9 @@
      * matching documents into a global set of required and prohibited
      * matches
      */
+    // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
     var allRequiredMatches = lunr.Set.complete,
+      // @ts-expect-error TS(2339): Property 'Set' does not exist on type '(config: an... Remove this comment to see the full error message
       allProhibitedMatches = lunr.Set.empty;
 
     for (var i = 0; i < this.fields.length; i++) {
@@ -2228,7 +2358,9 @@
 
       for (var i = 0; i < matchingFieldRefs.length; i++) {
         var matchingFieldRef = matchingFieldRefs[i];
+        // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
         var fieldRef = lunr.FieldRef.fromString(matchingFieldRef);
+        // @ts-expect-error TS(2339): Property 'MatchData' does not exist on type '(conf... Remove this comment to see the full error message
         matchingFields[matchingFieldRef] = new lunr.MatchData();
       }
     }
@@ -2242,6 +2374,7 @@
        * Scores are calculated by field, using the query vectors created
        * above, and combined into a final document score using addition.
        */
+      // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
       var fieldRef = lunr.FieldRef.fromString(matchingFieldRefs[i]),
         docRef = fieldRef.docRef;
 
@@ -2287,18 +2420,20 @@
    *
    * @returns {Object}
    */
+  // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Index.prototype.toJSON = function () {
     var invertedIndex = Object.keys(this.invertedIndex)
       .sort()
-      .map(function (term) {
+      .map(function(this: any, term) {
         return [term, this.invertedIndex[term]];
       }, this);
 
-    var fieldVectors = Object.keys(this.fieldVectors).map(function (ref) {
+    var fieldVectors = Object.keys(this.fieldVectors).map(function(this: any, ref) {
       return [ref, this.fieldVectors[ref].toJSON()];
     }, this);
 
     return {
+      // @ts-expect-error TS(2339): Property 'version' does not exist on type '(config... Remove this comment to see the full error message
       version: lunr.version,
       fields: this.fields,
       fieldVectors: fieldVectors,
@@ -2313,18 +2448,24 @@
    * @param {Object} serializedIndex - A previously serialized lunr.Index
    * @returns {lunr.Index}
    */
-  lunr.Index.load = function (serializedIndex) {
+  // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Index.load = function (serializedIndex: any) {
     var attrs = {},
       fieldVectors = {},
       serializedVectors = serializedIndex.fieldVectors,
       invertedIndex = Object.create(null),
       serializedInvertedIndex = serializedIndex.invertedIndex,
+      // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
       tokenSetBuilder = new lunr.TokenSet.Builder(),
+      // @ts-expect-error TS(2339): Property 'Pipeline' does not exist on type '(confi... Remove this comment to see the full error message
       pipeline = lunr.Pipeline.load(serializedIndex.pipeline);
 
+    // @ts-expect-error TS(2339): Property 'version' does not exist on type '(config... Remove this comment to see the full error message
     if (serializedIndex.version != lunr.version) {
+      // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
       lunr.utils.warn(
         "Version mismatch when loading serialised index. Current version of lunr '" +
+          // @ts-expect-error TS(2339): Property 'version' does not exist on type '(config... Remove this comment to see the full error message
           lunr.version +
           "' does not match serialized index '" +
           serializedIndex.version +
@@ -2337,6 +2478,7 @@
         ref = tuple[0],
         elements = tuple[1];
 
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       fieldVectors[ref] = new lunr.Vector(elements);
     }
 
@@ -2351,13 +2493,19 @@
 
     tokenSetBuilder.finish();
 
+    // @ts-expect-error TS(2339): Property 'fields' does not exist on type '{}'.
     attrs.fields = serializedIndex.fields;
 
+    // @ts-expect-error TS(2339): Property 'fieldVectors' does not exist on type '{}... Remove this comment to see the full error message
     attrs.fieldVectors = fieldVectors;
+    // @ts-expect-error TS(2339): Property 'invertedIndex' does not exist on type '{... Remove this comment to see the full error message
     attrs.invertedIndex = invertedIndex;
+    // @ts-expect-error TS(2339): Property 'tokenSet' does not exist on type '{}'.
     attrs.tokenSet = tokenSetBuilder.root;
+    // @ts-expect-error TS(2339): Property 'pipeline' does not exist on type '{}'.
     attrs.pipeline = pipeline;
 
+    // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
     return new lunr.Index(attrs);
   };
   /*!
@@ -2389,6 +2537,7 @@
    * @property {number} termIndex - A counter incremented for each unique term, used to identify a terms position in the vector space.
    * @property {array} metadataWhitelist - A list of metadata keys that have been whitelisted for entry in the index.
    */
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
   lunr.Builder = function () {
     this._ref = "id";
     this._fields = Object.create(null);
@@ -2396,8 +2545,11 @@
     this.invertedIndex = Object.create(null);
     this.fieldTermFrequencies = {};
     this.fieldLengths = {};
+    // @ts-expect-error TS(2339): Property 'tokenizer' does not exist on type '(conf... Remove this comment to see the full error message
     this.tokenizer = lunr.tokenizer;
+    // @ts-expect-error TS(2339): Property 'pipeline' does not exist on type '(confi... Remove this comment to see the full error message
     this.pipeline = new lunr.Pipeline();
+    // @ts-expect-error TS(2339): Property 'searchPipeline' does not exist on type '... Remove this comment to see the full error message
     this.searchPipeline = new lunr.Pipeline();
     this.documentCount = 0;
     this._b = 0.75;
@@ -2418,7 +2570,8 @@
    *
    * @param {string} ref - The name of the reference field in the document.
    */
-  lunr.Builder.prototype.ref = function (ref) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.ref = function (ref: any) {
     this._ref = ref;
   };
 
@@ -2454,7 +2607,8 @@
    * @param {fieldExtractor} [attributes.extractor] - Function to extract a field from a document.
    * @throws {RangeError} fieldName cannot contain unsupported characters '/'
    */
-  lunr.Builder.prototype.field = function (fieldName, attributes) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.field = function (fieldName: any, attributes: any) {
     if (/\//.test(fieldName)) {
       throw new RangeError(
         "Field '" + fieldName + "' contains illegal character '/'"
@@ -2472,7 +2626,8 @@
    *
    * @param {number} number - The value to set for this tuning parameter.
    */
-  lunr.Builder.prototype.b = function (number) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.b = function (number: any) {
     if (number < 0) {
       this._b = 0;
     } else if (number > 1) {
@@ -2489,7 +2644,8 @@
    *
    * @param {number} number - The value to set for this tuning parameter.
    */
-  lunr.Builder.prototype.k1 = function (number) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.k1 = function (number: any) {
     this._k1 = number;
   };
 
@@ -2510,7 +2666,8 @@
    * @param {object} attributes - Optional attributes associated with this document.
    * @param {number} [attributes.boost=1] - Boost applied to all terms within this document.
    */
-  lunr.Builder.prototype.add = function (doc, attributes) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.add = function (doc: any, attributes: any) {
     var docRef = doc[this._ref],
       fields = Object.keys(this._fields);
 
@@ -2525,6 +2682,7 @@
           fields: [fieldName],
         }),
         terms = this.pipeline.run(tokens),
+        // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
         fieldRef = new lunr.FieldRef(docRef, fieldName),
         fieldTerms = Object.create(null);
 
@@ -2589,6 +2747,7 @@
    *
    * @private
    */
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
   lunr.Builder.prototype.calculateAverageFieldLengths = function () {
     var fieldRefs = Object.keys(this.fieldLengths),
       numberOfFields = fieldRefs.length,
@@ -2596,6 +2755,7 @@
       documentsWithField = {};
 
     for (var i = 0; i < numberOfFields; i++) {
+      // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
       var fieldRef = lunr.FieldRef.fromString(fieldRefs[i]),
         field = fieldRef.fieldName;
 
@@ -2622,6 +2782,7 @@
    *
    * @private
    */
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
   lunr.Builder.prototype.createFieldVectors = function () {
     var fieldVectors = {},
       fieldRefs = Object.keys(this.fieldTermFrequencies),
@@ -2629,9 +2790,11 @@
       termIdfCache = Object.create(null);
 
     for (var i = 0; i < fieldRefsLength; i++) {
+      // @ts-expect-error TS(2339): Property 'FieldRef' does not exist on type '(confi... Remove this comment to see the full error message
       var fieldRef = lunr.FieldRef.fromString(fieldRefs[i]),
         fieldName = fieldRef.fieldName,
         fieldLength = this.fieldLengths[fieldRef],
+        // @ts-expect-error TS(2339): Property 'Vector' does not exist on type '(config:... Remove this comment to see the full error message
         fieldVector = new lunr.Vector(),
         termFrequencies = this.fieldTermFrequencies[fieldRef],
         terms = Object.keys(termFrequencies),
@@ -2649,6 +2812,7 @@
           scoreWithPrecision;
 
         if (termIdfCache[term] === undefined) {
+          // @ts-expect-error TS(2339): Property 'idf' does not exist on type '(config: an... Remove this comment to see the full error message
           idf = lunr.idf(this.invertedIndex[term], this.documentCount);
           termIdfCache[term] = idf;
         } else {
@@ -2686,7 +2850,9 @@
    *
    * @private
    */
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
   lunr.Builder.prototype.createTokenSet = function () {
+    // @ts-expect-error TS(2339): Property 'TokenSet' does not exist on type '(confi... Remove this comment to see the full error message
     this.tokenSet = lunr.TokenSet.fromArray(
       Object.keys(this.invertedIndex).sort()
     );
@@ -2700,11 +2866,13 @@
    *
    * @returns {lunr.Index}
    */
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
   lunr.Builder.prototype.build = function () {
     this.calculateAverageFieldLengths();
     this.createFieldVectors();
     this.createTokenSet();
 
+    // @ts-expect-error TS(2339): Property 'Index' does not exist on type '(config: ... Remove this comment to see the full error message
     return new lunr.Index({
       invertedIndex: this.invertedIndex,
       fieldVectors: this.fieldVectors,
@@ -2728,7 +2896,8 @@
    *
    * @param {Function} plugin The plugin to apply.
    */
-  lunr.Builder.prototype.use = function (fn) {
+  // @ts-expect-error TS(2339): Property 'Builder' does not exist on type '(config... Remove this comment to see the full error message
+  lunr.Builder.prototype.use = function (fn: any) {
     var args = Array.prototype.slice.call(arguments, 1);
     args.unshift(this);
     fn.apply(this, args);
@@ -2745,7 +2914,8 @@
    * @property {object} metadata - A cloned collection of metadata associated with this document.
    * @see {@link lunr.Index~Result}
    */
-  lunr.MatchData = function (term, field, metadata) {
+  // @ts-expect-error TS(2339): Property 'MatchData' does not exist on type '(conf... Remove this comment to see the full error message
+  lunr.MatchData = function (term: any, field: any, metadata: any) {
     var clonedMetadata = Object.create(null),
       metadataKeys = Object.keys(metadata || {});
 
@@ -2776,7 +2946,8 @@
    * @param {lunr.MatchData} otherMatchData - Another instance of match data to merge with this one.
    * @see {@link lunr.Index~Result}
    */
-  lunr.MatchData.prototype.combine = function (otherMatchData) {
+  // @ts-expect-error TS(2339): Property 'MatchData' does not exist on type '(conf... Remove this comment to see the full error message
+  lunr.MatchData.prototype.combine = function (otherMatchData: any) {
     var terms = Object.keys(otherMatchData.metadata);
 
     for (var i = 0; i < terms.length; i++) {
@@ -2818,7 +2989,8 @@
    * @param {string} field - The field in which the term was found
    * @param {object} metadata - The metadata recorded about this term in this field
    */
-  lunr.MatchData.prototype.add = function (term, field, metadata) {
+  // @ts-expect-error TS(2339): Property 'MatchData' does not exist on type '(conf... Remove this comment to see the full error message
+  lunr.MatchData.prototype.add = function (term: any, field: any, metadata: any) {
     if (!(term in this.metadata)) {
       this.metadata[term] = Object.create(null);
       this.metadata[term][field] = metadata;
@@ -2855,7 +3027,8 @@
    * @property {lunr.Query~Clause[]} clauses - An array of query clauses.
    * @property {string[]} allFields - An array of all available fields in a lunr.Index.
    */
-  lunr.Query = function (allFields) {
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Query = function (allFields: any) {
     this.clauses = [];
     this.allFields = allFields;
   };
@@ -2884,9 +3057,13 @@
    * })
    */
 
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.wildcard = new String("*");
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.wildcard.NONE = 0;
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.wildcard.LEADING = 1;
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.wildcard.TRAILING = 2;
 
   /**
@@ -2900,6 +3077,7 @@
    * @example <caption>query term with required presence</caption>
    * query.term('foo', { presence: lunr.Query.presence.REQUIRED })
    */
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.presence = {
     /**
      * Term's presence in a document is optional, this is the default value.
@@ -2942,7 +3120,8 @@
    * @see lunr.Query~Clause
    * @returns {lunr.Query}
    */
-  lunr.Query.prototype.clause = function (clause) {
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Query.prototype.clause = function (clause: any) {
     if (!("fields" in clause)) {
       clause.fields = this.allFields;
     }
@@ -2956,24 +3135,30 @@
     }
 
     if (!("wildcard" in clause)) {
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.wildcard = lunr.Query.wildcard.NONE;
     }
 
     if (
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.wildcard & lunr.Query.wildcard.LEADING &&
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.term.charAt(0) != lunr.Query.wildcard
     ) {
       clause.term = "*" + clause.term;
     }
 
     if (
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.wildcard & lunr.Query.wildcard.TRAILING &&
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.term.slice(-1) != lunr.Query.wildcard
     ) {
       clause.term = "" + clause.term + "*";
     }
 
     if (!("presence" in clause)) {
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       clause.presence = lunr.Query.presence.OPTIONAL;
     }
 
@@ -2989,8 +3174,10 @@
    *
    * @returns boolean
    */
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
   lunr.Query.prototype.isNegated = function () {
     for (var i = 0; i < this.clauses.length; i++) {
+      // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
       if (this.clauses[i].presence != lunr.Query.presence.PROHIBITED) {
         return false;
       }
@@ -3025,9 +3212,11 @@
    * @example <caption>using lunr.tokenizer to convert a string to tokens before using them as terms</caption>
    * query.term(lunr.tokenizer("foo bar"))
    */
-  lunr.Query.prototype.term = function (term, options) {
+  // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
+  lunr.Query.prototype.term = function (term: any, options: any) {
     if (Array.isArray(term)) {
-      term.forEach(function (t) {
+      term.forEach(function(this: any, t) {
+        // @ts-expect-error TS(2339): Property 'utils' does not exist on type '(config: ... Remove this comment to see the full error message
         this.term(t, lunr.utils.clone(options));
       }, this);
       return this;
@@ -3040,15 +3229,18 @@
 
     return this;
   };
-  lunr.QueryParseError = function (message, start, end) {
+  // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
+  lunr.QueryParseError = function (message: any, start: any, end: any) {
     this.name = "QueryParseError";
     this.message = message;
     this.start = start;
     this.end = end;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
   lunr.QueryParseError.prototype = new Error();
-  lunr.QueryLexer = function (str) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer = function (str: any) {
     this.lexemes = [];
     this.str = str;
     this.length = str.length;
@@ -3057,7 +3249,9 @@
     this.escapeCharPositions = [];
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.run = function () {
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     var state = lunr.QueryLexer.lexText;
 
     while (state) {
@@ -3065,6 +3259,7 @@
     }
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.sliceString = function () {
     var subSlices = [],
       sliceStart = this.start,
@@ -3082,7 +3277,8 @@
     return subSlices.join("");
   };
 
-  lunr.QueryLexer.prototype.emit = function (type) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.prototype.emit = function (type: any) {
     this.lexemes.push({
       type: type,
       str: this.sliceString(),
@@ -3093,13 +3289,16 @@
     this.start = this.pos;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.escapeCharacter = function () {
     this.escapeCharPositions.push(this.pos - 1);
     this.pos += 1;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.next = function () {
     if (this.pos >= this.length) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       return lunr.QueryLexer.EOS;
     }
 
@@ -3108,10 +3307,12 @@
     return char;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.width = function () {
     return this.pos - this.start;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.ignore = function () {
     if (this.start == this.pos) {
       this.pos += 1;
@@ -3120,10 +3321,12 @@
     this.start = this.pos;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.backup = function () {
     this.pos -= 1;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.acceptDigitRun = function () {
     var char, charCode;
 
@@ -3132,58 +3335,80 @@
       charCode = char.charCodeAt(0);
     } while (charCode > 47 && charCode < 58);
 
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     if (char != lunr.QueryLexer.EOS) {
       this.backup();
     }
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.prototype.more = function () {
     return this.pos < this.length;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.EOS = "EOS";
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.FIELD = "FIELD";
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.TERM = "TERM";
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.EDIT_DISTANCE = "EDIT_DISTANCE";
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.BOOST = "BOOST";
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.PRESENCE = "PRESENCE";
 
-  lunr.QueryLexer.lexField = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexField = function (lexer: any) {
     lexer.backup();
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     lexer.emit(lunr.QueryLexer.FIELD);
     lexer.ignore();
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     return lunr.QueryLexer.lexText;
   };
 
-  lunr.QueryLexer.lexTerm = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexTerm = function (lexer: any) {
     if (lexer.width() > 1) {
       lexer.backup();
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       lexer.emit(lunr.QueryLexer.TERM);
     }
 
     lexer.ignore();
 
     if (lexer.more()) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       return lunr.QueryLexer.lexText;
     }
   };
 
-  lunr.QueryLexer.lexEditDistance = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexEditDistance = function (lexer: any) {
     lexer.ignore();
     lexer.acceptDigitRun();
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     lexer.emit(lunr.QueryLexer.EDIT_DISTANCE);
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     return lunr.QueryLexer.lexText;
   };
 
-  lunr.QueryLexer.lexBoost = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexBoost = function (lexer: any) {
     lexer.ignore();
     lexer.acceptDigitRun();
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     lexer.emit(lunr.QueryLexer.BOOST);
+    // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
     return lunr.QueryLexer.lexText;
   };
 
-  lunr.QueryLexer.lexEOS = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexEOS = function (lexer: any) {
     if (lexer.width() > 0) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       lexer.emit(lunr.QueryLexer.TERM);
     }
   };
@@ -3199,13 +3424,17 @@
   // This means that it is possible to change the separator in
   // such a way that makes some words unsearchable using a search
   // string.
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
   lunr.QueryLexer.termSeparator = lunr.tokenizer.separator;
 
-  lunr.QueryLexer.lexText = function (lexer) {
+  // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
+  lunr.QueryLexer.lexText = function (lexer: any) {
     while (true) {
       var char = lexer.next();
 
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       if (char == lunr.QueryLexer.EOS) {
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexEOS;
       }
 
@@ -3216,22 +3445,27 @@
       }
 
       if (char == ":") {
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexField;
       }
 
       if (char == "~") {
         lexer.backup();
         if (lexer.width() > 0) {
+          // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
           lexer.emit(lunr.QueryLexer.TERM);
         }
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexEditDistance;
       }
 
       if (char == "^") {
         lexer.backup();
         if (lexer.width() > 0) {
+          // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
           lexer.emit(lunr.QueryLexer.TERM);
         }
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexBoost;
       }
 
@@ -3239,7 +3473,9 @@
       // checking for length to ensure that only
       // leading "+" are considered
       if (char == "+" && lexer.width() === 1) {
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         lexer.emit(lunr.QueryLexer.PRESENCE);
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexText;
       }
 
@@ -3247,27 +3483,35 @@
       // checking for length to ensure that only
       // leading "-" are considered
       if (char == "-" && lexer.width() === 1) {
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         lexer.emit(lunr.QueryLexer.PRESENCE);
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexText;
       }
 
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       if (char.match(lunr.QueryLexer.termSeparator)) {
+        // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
         return lunr.QueryLexer.lexTerm;
       }
     }
   };
 
-  lunr.QueryParser = function (str, query) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser = function (str: any, query: any) {
+    // @ts-expect-error TS(2339): Property 'lexer' does not exist on type '(config: ... Remove this comment to see the full error message
     this.lexer = new lunr.QueryLexer(str);
     this.query = query;
     this.currentClause = {};
     this.lexemeIdx = 0;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
   lunr.QueryParser.prototype.parse = function () {
     this.lexer.run();
     this.lexemes = this.lexer.lexemes;
 
+    // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
     var state = lunr.QueryParser.parseClause;
 
     while (state) {
@@ -3277,23 +3521,27 @@
     return this.query;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
   lunr.QueryParser.prototype.peekLexeme = function () {
     return this.lexemes[this.lexemeIdx];
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
   lunr.QueryParser.prototype.consumeLexeme = function () {
     var lexeme = this.peekLexeme();
     this.lexemeIdx += 1;
     return lexeme;
   };
 
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
   lunr.QueryParser.prototype.nextClause = function () {
     var completedClause = this.currentClause;
     this.query.clause(completedClause);
     this.currentClause = {};
   };
 
-  lunr.QueryParser.parseClause = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parseClause = function (parser: any) {
     var lexeme = parser.peekLexeme();
 
     if (lexeme == undefined) {
@@ -3301,11 +3549,17 @@
     }
 
     switch (lexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.PRESENCE:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parsePresence;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.FIELD:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseField;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
       default:
         var errorMessage =
@@ -3315,11 +3569,13 @@
           errorMessage += " with value '" + lexeme.str + "'";
         }
 
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
   };
 
-  lunr.QueryParser.parsePresence = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parsePresence = function (parser: any) {
     var lexeme = parser.consumeLexeme();
 
     if (lexeme == undefined) {
@@ -3328,13 +3584,16 @@
 
     switch (lexeme.str) {
       case "-":
+        // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
         parser.currentClause.presence = lunr.Query.presence.PROHIBITED;
         break;
       case "+":
+        // @ts-expect-error TS(2339): Property 'Query' does not exist on type '(config: ... Remove this comment to see the full error message
         parser.currentClause.presence = lunr.Query.presence.REQUIRED;
         break;
       default:
         var errorMessage = "unrecognised presence operator'" + lexeme.str + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
@@ -3342,17 +3601,23 @@
 
     if (nextLexeme == undefined) {
       var errorMessage = "expecting term or field, found nothing";
+      // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
       throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
     switch (nextLexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.FIELD:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseField;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
       default:
         var errorMessage =
           "expecting term or field, found '" + nextLexeme.type + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(
           errorMessage,
           nextLexeme.start,
@@ -3361,7 +3626,8 @@
     }
   };
 
-  lunr.QueryParser.parseField = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parseField = function (parser: any) {
     var lexeme = parser.consumeLexeme();
 
     if (lexeme == undefined) {
@@ -3370,7 +3636,7 @@
 
     if (parser.query.allFields.indexOf(lexeme.str) == -1) {
       var possibleFields = parser.query.allFields
-          .map(function (f) {
+          .map(function (f: any) {
             return "'" + f + "'";
           })
           .join(", "),
@@ -3380,6 +3646,7 @@
           "', possible fields: " +
           possibleFields;
 
+      // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
       throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
@@ -3389,14 +3656,18 @@
 
     if (nextLexeme == undefined) {
       var errorMessage = "expecting term, found nothing";
+      // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
       throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
     switch (nextLexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
       default:
         var errorMessage = "expecting term, found '" + nextLexeme.type + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(
           errorMessage,
           nextLexeme.start,
@@ -3405,7 +3676,8 @@
     }
   };
 
-  lunr.QueryParser.parseTerm = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parseTerm = function (parser: any) {
     var lexeme = parser.consumeLexeme();
 
     if (lexeme == undefined) {
@@ -3426,21 +3698,32 @@
     }
 
     switch (nextLexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.FIELD:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseField;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.EDIT_DISTANCE:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseEditDistance;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.BOOST:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseBoost;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.PRESENCE:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parsePresence;
       default:
         var errorMessage = "Unexpected lexeme type '" + nextLexeme.type + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(
           errorMessage,
           nextLexeme.start,
@@ -3449,7 +3732,8 @@
     }
   };
 
-  lunr.QueryParser.parseEditDistance = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parseEditDistance = function (parser: any) {
     var lexeme = parser.consumeLexeme();
 
     if (lexeme == undefined) {
@@ -3460,6 +3744,7 @@
 
     if (isNaN(editDistance)) {
       var errorMessage = "edit distance must be numeric";
+      // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
       throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
@@ -3473,21 +3758,32 @@
     }
 
     switch (nextLexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.FIELD:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseField;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.EDIT_DISTANCE:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseEditDistance;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.BOOST:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseBoost;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.PRESENCE:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parsePresence;
       default:
         var errorMessage = "Unexpected lexeme type '" + nextLexeme.type + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(
           errorMessage,
           nextLexeme.start,
@@ -3496,7 +3792,8 @@
     }
   };
 
-  lunr.QueryParser.parseBoost = function (parser) {
+  // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
+  lunr.QueryParser.parseBoost = function (parser: any) {
     var lexeme = parser.consumeLexeme();
 
     if (lexeme == undefined) {
@@ -3507,6 +3804,7 @@
 
     if (isNaN(boost)) {
       var errorMessage = "boost must be numeric";
+      // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
       throw new lunr.QueryParseError(errorMessage, lexeme.start, lexeme.end);
     }
 
@@ -3520,21 +3818,32 @@
     }
 
     switch (nextLexeme.type) {
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.TERM:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseTerm;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.FIELD:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseField;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.EDIT_DISTANCE:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseEditDistance;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.BOOST:
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parseBoost;
+      // @ts-expect-error TS(2339): Property 'QueryLexer' does not exist on type '(con... Remove this comment to see the full error message
       case lunr.QueryLexer.PRESENCE:
         parser.nextClause();
+        // @ts-expect-error TS(2339): Property 'QueryParser' does not exist on type '(co... Remove this comment to see the full error message
         return lunr.QueryParser.parsePresence;
       default:
         var errorMessage = "Unexpected lexeme type '" + nextLexeme.type + "'";
+        // @ts-expect-error TS(2339): Property 'QueryParseError' does not exist on type ... Remove this comment to see the full error message
         throw new lunr.QueryParseError(
           errorMessage,
           nextLexeme.start,
@@ -3548,15 +3857,19 @@
    * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
    */
   (function (root, factory) {
+    // @ts-expect-error TS(2304): Cannot find name 'define'.
     if (typeof define === "function" && define.amd) {
       // AMD. Register as an anonymous module.
+      // @ts-expect-error TS(2304): Cannot find name 'define'.
       define(factory);
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
     } else if (typeof exports === "object") {
       /**
        * Node. Does not work with strict CommonJS, but
        * only CommonJS-like enviroments that support module.exports,
        * like Node.
        */
+      // @ts-expect-error TS(2580): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
       module.exports = factory();
     } else {
       // Browser globals (root is window)
@@ -3570,4 +3883,4 @@
      */
     return lunr;
   });
-})();
+}))();

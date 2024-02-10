@@ -20,15 +20,19 @@
  * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
  */
 (function (root, factory) {
+  // @ts-expect-error TS(2304): Cannot find name 'define'.
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
+    // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
+  // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
      * only CommonJS-like environments that support module.exports,
      * like Node.
      */
+    // @ts-expect-error TS(2580): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
     module.exports = factory();
   } else {
     // Browser globals (root is window)
@@ -40,7 +44,7 @@
    * This example returns an object, but the module
    * can return a function as the exported value.
    */
-  return function (lunr) {
+  return function (lunr: any) {
     /* throw error if lunr is not yet included */
     if ("undefined" === typeof lunr) {
       throw new Error(
@@ -91,7 +95,7 @@
     };
     var segmenter = new lunr.TinySegmenter(); // インスタンス生成
 
-    lunr.ja.tokenizer = function (obj) {
+    lunr.ja.tokenizer = function (obj: any) {
       var i;
       var str;
       var len;
@@ -129,7 +133,7 @@
           if (sliceLength > 0) {
             segs = segmenter
               .segment(str.slice(sliceStart, sliceEnd))
-              .filter(function (token) {
+              .filter(function (token: any) {
                 return !!token;
               });
 
@@ -159,7 +163,7 @@
     /* lunr stemmer function */
     lunr.ja.stemmer = (function () {
       /* TODO japanese stemmer  */
-      return function (word) {
+      return function (word: any) {
         return word;
       };
     })();
