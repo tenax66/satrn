@@ -12,19 +12,23 @@
  * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
  */
 (function (root, factory) {
+  // @ts-expect-error TS(2304): Cannot find name 'define'.
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
+    // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
      * only CommonJS-like environments that support module.exports,
      * like Node.
      */
+    // @ts-expect-error TS(2580): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
     module.exports = factory();
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory()(root.satrn);
   }
 })(this, function () {
   /**
@@ -32,11 +36,11 @@
    * This example returns an object, but the module
    * can return a function as the exported value.
    */
-  return function (lunr) {
+  return function (satrn: any) {
     /* provides utilities for the included stemmers */
-    lunr.stemmerSupport = {
-      Among: function (s, substring_i, result, method) {
-        this.toCharArray = function (s) {
+    satrn.stemmerSupport = {
+      Among: function (s: any, substring_i: any, result: any, method: any) {
+        this.toCharArray = function (s: any) {
           var sLength = s.length,
             charArr = new Array(sLength);
           for (var i = 0; i < sLength; i++) charArr[i] = s.charCodeAt(i);
@@ -59,14 +63,14 @@
         this.method = method;
       },
       SnowballProgram: function () {
-        var current;
+        var current: any;
         return {
           bra: 0,
           ket: 0,
           limit: 0,
           cursor: 0,
           limit_backward: 0,
-          setCurrent: function (word) {
+          setCurrent: function (word: any) {
             current = word;
             this.cursor = 0;
             this.limit = word.length;
@@ -79,7 +83,7 @@
             current = null;
             return result;
           },
-          in_grouping: function (s, min, max) {
+          in_grouping: function (s: any, min: any, max: any) {
             if (this.cursor < this.limit) {
               var ch = current.charCodeAt(this.cursor);
               if (ch <= max && ch >= min) {
@@ -92,7 +96,7 @@
             }
             return false;
           },
-          in_grouping_b: function (s, min, max) {
+          in_grouping_b: function (s: any, min: any, max: any) {
             if (this.cursor > this.limit_backward) {
               var ch = current.charCodeAt(this.cursor - 1);
               if (ch <= max && ch >= min) {
@@ -105,7 +109,7 @@
             }
             return false;
           },
-          out_grouping: function (s, min, max) {
+          out_grouping: function (s: any, min: any, max: any) {
             if (this.cursor < this.limit) {
               var ch = current.charCodeAt(this.cursor);
               if (ch > max || ch < min) {
@@ -120,7 +124,7 @@
             }
             return false;
           },
-          out_grouping_b: function (s, min, max) {
+          out_grouping_b: function (s: any, min: any, max: any) {
             if (this.cursor > this.limit_backward) {
               var ch = current.charCodeAt(this.cursor - 1);
               if (ch > max || ch < min) {
@@ -135,7 +139,7 @@
             }
             return false;
           },
-          eq_s: function (s_size, s) {
+          eq_s: function (s_size: any, s: any) {
             if (this.limit - this.cursor < s_size) return false;
             for (var i = 0; i < s_size; i++)
               if (current.charCodeAt(this.cursor + i) != s.charCodeAt(i))
@@ -143,7 +147,7 @@
             this.cursor += s_size;
             return true;
           },
-          eq_s_b: function (s_size, s) {
+          eq_s_b: function (s_size: any, s: any) {
             if (this.cursor - this.limit_backward < s_size) return false;
             for (var i = 0; i < s_size; i++)
               if (
@@ -153,7 +157,7 @@
             this.cursor -= s_size;
             return true;
           },
-          find_among: function (v, v_size) {
+          find_among: function (v: any, v_size: any) {
             var i = 0,
               j = v_size,
               c = this.cursor,
@@ -200,7 +204,7 @@
               if (i < 0) return 0;
             }
           },
-          find_among_b: function (v, v_size) {
+          find_among_b: function (v: any, v_size: any) {
             var i = 0,
               j = v_size,
               c = this.cursor,
@@ -247,7 +251,7 @@
               if (i < 0) return 0;
             }
           },
-          replace_s: function (c_bra, c_ket, s) {
+          replace_s: function (c_bra: any, c_ket: any, s: any) {
             var adjustment = s.length - (c_ket - c_bra),
               left = current.substring(0, c_bra),
               right = current.substring(c_ket);
@@ -266,14 +270,14 @@
             )
               throw "faulty slice operation";
           },
-          slice_from: function (s) {
+          slice_from: function (s: any) {
             this.slice_check();
             this.replace_s(this.bra, this.ket, s);
           },
           slice_del: function () {
             this.slice_from("");
           },
-          insert: function (c_bra, c_ket, s) {
+          insert: function (c_bra: any, c_ket: any, s: any) {
             var adjustment = this.replace_s(c_bra, c_ket, s);
             if (c_bra <= this.bra) this.bra += adjustment;
             if (c_bra <= this.ket) this.ket += adjustment;
@@ -282,22 +286,22 @@
             this.slice_check();
             return current.substring(this.bra, this.ket);
           },
-          eq_v_b: function (s) {
+          eq_v_b: function (s: any) {
             return this.eq_s_b(s.length, s);
           },
         };
       },
     };
 
-    lunr.trimmerSupport = {
-      generateTrimmer: function (wordCharacters) {
+    satrn.trimmerSupport = {
+      generateTrimmer: function (wordCharacters: any) {
         var startRegex = new RegExp("^[^" + wordCharacters + "]+");
         var endRegex = new RegExp("[^" + wordCharacters + "]+$");
 
-        return function (token) {
+        return function (token: any) {
           // for lunr version 2
           if (typeof token.update === "function") {
-            return token.update(function (s) {
+            return token.update(function (s: any) {
               return s.replace(startRegex, "").replace(endRegex, "");
             });
           } else {

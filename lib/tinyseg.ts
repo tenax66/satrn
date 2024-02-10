@@ -3,19 +3,23 @@
  * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
  */
 (function (root, factory) {
+  // @ts-expect-error TS(2304): Cannot find name 'define'.
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
+    // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
      * only CommonJS-like environments that support module.exports,
      * like Node.
      */
+    // @ts-expect-error TS(2580): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
     module.exports = factory();
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory()(root.satrn);
   }
 })(this, function () {
   /**
@@ -24,13 +28,13 @@
    * can return a function as the exported value.
    */
 
-  return function (lunr) {
+  return function (satrn: any) {
     // TinySegmenter 0.1 -- Super compact Japanese tokenizer in Javascript
     // (c) 2008 Taku Kudo <taku@chasen.org>
     // TinySegmenter is freely distributable under the terms of a new BSD licence.
     // For details, see http://chasen.org/~taku/software/TinySegmenter/LICENCE.txt
 
-    function TinySegmenter() {
+    function TinySegmenter(this: any) {
       var patterns = {
         "[一二三四五六七八九十百千万億兆]": "M",
         "[一-龠々〆ヵヶ]": "H",
@@ -1414,7 +1418,7 @@
 
       return this;
     }
-    TinySegmenter.prototype.ctype_ = function (str) {
+    TinySegmenter.prototype.ctype_ = function (str: any) {
       for (var i in this.chartype_) {
         if (str.match(this.chartype_[i][0])) {
           return this.chartype_[i][1];
@@ -1423,14 +1427,14 @@
       return "O";
     };
 
-    TinySegmenter.prototype.ts_ = function (v) {
+    TinySegmenter.prototype.ts_ = function (v: any) {
       if (v) {
         return v;
       }
       return 0;
     };
 
-    TinySegmenter.prototype.segment = function (input) {
+    TinySegmenter.prototype.segment = function (input: any) {
       if (input == null || input == undefined || input == "") {
         return [];
       }
@@ -1525,6 +1529,6 @@
       return result;
     };
 
-    lunr.TinySegmenter = TinySegmenter;
+    satrn.TinySegmenter = TinySegmenter;
   };
 });
