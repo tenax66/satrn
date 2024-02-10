@@ -8,7 +8,7 @@
     // AMD. Register as an anonymous module.
     // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
-  // @ts-expect-error TS(2304): Cannot find name 'exports'.
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
@@ -19,7 +19,7 @@
     module.exports = factory();
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory()(root.satrn);
   }
 })(this, function () {
   /**
@@ -28,7 +28,7 @@
    * can return a function as the exported value.
    */
 
-  return function (lunr: any) {
+  return function (satrn: any) {
     // TinySegmenter 0.1 -- Super compact Japanese tokenizer in Javascript
     // (c) 2008 Taku Kudo <taku@chasen.org>
     // TinySegmenter is freely distributable under the terms of a new BSD licence.
@@ -1529,6 +1529,6 @@
       return result;
     };
 
-    lunr.TinySegmenter = TinySegmenter;
+    satrn.TinySegmenter = TinySegmenter;
   };
 });

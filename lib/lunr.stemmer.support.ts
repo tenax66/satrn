@@ -17,7 +17,7 @@
     // AMD. Register as an anonymous module.
     // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
-  // @ts-expect-error TS(2304): Cannot find name 'exports'.
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
@@ -28,7 +28,7 @@
     module.exports = factory();
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory()(root.satrn);
   }
 })(this, function () {
   /**
@@ -36,9 +36,9 @@
    * This example returns an object, but the module
    * can return a function as the exported value.
    */
-  return function (lunr: any) {
+  return function (satrn: any) {
     /* provides utilities for the included stemmers */
-    lunr.stemmerSupport = {
+    satrn.stemmerSupport = {
       Among: function (s: any, substring_i: any, result: any, method: any) {
         this.toCharArray = function (s: any) {
           var sLength = s.length,
@@ -293,7 +293,7 @@
       },
     };
 
-    lunr.trimmerSupport = {
+    satrn.trimmerSupport = {
       generateTrimmer: function (wordCharacters: any) {
         var startRegex = new RegExp("^[^" + wordCharacters + "]+");
         var endRegex = new RegExp("[^" + wordCharacters + "]+$");

@@ -25,7 +25,7 @@
     // AMD. Register as an anonymous module.
     // @ts-expect-error TS(2304): Cannot find name 'define'.
     define(factory);
-  // @ts-expect-error TS(2304): Cannot find name 'exports'.
+    // @ts-expect-error TS(2304): Cannot find name 'exports'.
   } else if (typeof exports === "object") {
     /**
      * Node. Does not work with strict CommonJS, but
@@ -36,7 +36,7 @@
     module.exports = factory();
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory()(root.satrn);
   }
 })(this, function () {
   /**
@@ -44,16 +44,16 @@
    * This example returns an object, but the module
    * can return a function as the exported value.
    */
-  return function (lunr: any) {
-    /* throw error if lunr is not yet included */
-    if ("undefined" === typeof lunr) {
+  return function (satrn: any) {
+    /* throw error if satrn is not yet included */
+    if ("undefined" === typeof satrn) {
       throw new Error(
         "Lunr is not present. Please include / require Lunr before this script."
       );
     }
 
-    /* throw error if lunr stemmer support is not yet included */
-    if ("undefined" === typeof lunr.stemmerSupport) {
+    /* throw error if satrn stemmer support is not yet included */
+    if ("undefined" === typeof satrn.stemmerSupport) {
       throw new Error(
         "Lunr stemmer support is not present. Please include / require Lunr stemmer support before this script."
       );
@@ -67,35 +67,35 @@
     in order to try to try to pick the best way of doing this based
     on the Lunr version
      */
-    var isLunr2 = lunr.version[0] == "2";
+    var isLunr2 = satrn.version[0] == "2";
 
     /* register specific locale function */
-    lunr.ja = function () {
+    satrn.ja = function () {
       this.pipeline.reset();
       this.pipeline.add(
-        lunr.ja.trimmer,
-        lunr.ja.stopWordFilter,
-        lunr.ja.stemmer
+        satrn.ja.trimmer,
+        satrn.ja.stopWordFilter,
+        satrn.ja.stemmer
       );
 
       // change the tokenizer for japanese one
       if (isLunr2) {
         // for lunr version 2.0.0
-        this.tokenizer = lunr.ja.tokenizer;
+        this.tokenizer = satrn.ja.tokenizer;
       } else {
-        if (lunr.tokenizer) {
+        if (satrn.tokenizer) {
           // for lunr version 0.6.0
-          lunr.tokenizer = lunr.ja.tokenizer;
+          satrn.tokenizer = satrn.ja.tokenizer;
         }
         if (this.tokenizerFn) {
           // for lunr version 0.7.0 -> 1.0.0
-          this.tokenizerFn = lunr.ja.tokenizer;
+          this.tokenizerFn = satrn.ja.tokenizer;
         }
       }
     };
-    var segmenter = new lunr.TinySegmenter(); // インスタンス生成
+    var segmenter = new satrn.TinySegmenter(); // インスタンス生成
 
-    lunr.ja.tokenizer = function (obj: any) {
+    satrn.ja.tokenizer = function (obj: any) {
       var i;
       var str;
       var len;
@@ -111,7 +111,7 @@
 
       if (Array.isArray(obj)) {
         return obj.map(function (t) {
-          return isLunr2 ? new lunr.Token(t.toLowerCase()) : t.toLowerCase();
+          return isLunr2 ? new satrn.Token(t.toLowerCase()) : t.toLowerCase();
         });
       }
 
@@ -141,7 +141,7 @@
             for (i = 0; i < segs.length; i++) {
               if (isLunr2) {
                 tokens.push(
-                  new lunr.Token(segs[i], {
+                  new satrn.Token(segs[i], {
                     position: [segStart, segs[i].length],
                     index: tokens.length,
                   })
@@ -160,39 +160,45 @@
       return tokens;
     };
 
-    /* lunr stemmer function */
-    lunr.ja.stemmer = (function () {
+    /* satrn stemmer function */
+    satrn.ja.stemmer = (function () {
       /* TODO japanese stemmer  */
       return function (word: any) {
         return word;
       };
     })();
-    lunr.Pipeline.registerFunction(lunr.ja.stemmer, "stemmer-ja");
+    satrn.Pipeline.registerFunction(satrn.ja.stemmer, "stemmer-ja");
 
-    /* lunr trimmer function */
-    lunr.ja.wordCharacters =
+    /* satrn trimmer function */
+    satrn.ja.wordCharacters =
       "一二三四五六七八九十百千万億兆一-龠々〆ヵヶぁ-んァ-ヴーｱ-ﾝﾞa-zA-Zａ-ｚＡ-Ｚ0-9０-９";
-    lunr.ja.trimmer = lunr.trimmerSupport.generateTrimmer(
-      lunr.ja.wordCharacters
+    satrn.ja.trimmer = satrn.trimmerSupport.generateTrimmer(
+      satrn.ja.wordCharacters
     );
-    lunr.Pipeline.registerFunction(lunr.ja.trimmer, "trimmer-ja");
+    satrn.Pipeline.registerFunction(satrn.ja.trimmer, "trimmer-ja");
 
-    /* lunr stop word filter. see http://www.ranks.nl/stopwords/japanese */
-    lunr.ja.stopWordFilter = lunr.generateStopWordFilter(
+    /* satrn stop word filter. see http://www.ranks.nl/stopwords/japanese */
+    satrn.ja.stopWordFilter = satrn.generateStopWordFilter(
       "これ それ あれ この その あの ここ そこ あそこ こちら どこ だれ なに なん 何 私 貴方 貴方方 我々 私達 あの人 あのかた 彼女 彼 です あります おります います は が の に を で え から まで より も どの と し それで しかし".split(
         " "
       )
     );
-    lunr.Pipeline.registerFunction(lunr.ja.stopWordFilter, "stopWordFilter-ja");
+    satrn.Pipeline.registerFunction(
+      satrn.ja.stopWordFilter,
+      "stopWordFilter-ja"
+    );
 
     // alias ja => jp for backward-compatibility.
     // jp is the country code, while ja is the language code
-    // a new lunr.ja.js has been created, but in order to
-    // keep the backward compatibility, we'll leave the lunr.jp.js
-    // here for a while, and just make it use the new lunr.ja.js
-    lunr.jp = lunr.ja;
-    lunr.Pipeline.registerFunction(lunr.jp.stemmer, "stemmer-jp");
-    lunr.Pipeline.registerFunction(lunr.jp.trimmer, "trimmer-jp");
-    lunr.Pipeline.registerFunction(lunr.jp.stopWordFilter, "stopWordFilter-jp");
+    // a new satrn.ja.js has been created, but in order to
+    // keep the backward compatibility, we'll leave the satrn.jp.js
+    // here for a while, and just make it use the new satrn.ja.js
+    satrn.jp = satrn.ja;
+    satrn.Pipeline.registerFunction(satrn.jp.stemmer, "stemmer-jp");
+    satrn.Pipeline.registerFunction(satrn.jp.trimmer, "trimmer-jp");
+    satrn.Pipeline.registerFunction(
+      satrn.jp.stopWordFilter,
+      "stopWordFilter-jp"
+    );
   };
 });
