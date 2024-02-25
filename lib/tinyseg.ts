@@ -1434,28 +1434,36 @@
       return 0;
     };
 
+    /** segment関数の定義 */
     TinySegmenter.prototype.segment = function (input: any) {
+
       if (input == null || input == undefined || input == "") {
         return [];
       }
+
       var result = [];
       var seg = ["B3", "B2", "B1"];
       var ctype = ["O", "O", "O"];
+      // 文字ごとに分割
       var o = input.split("");
+
       for (i = 0; i < o.length; ++i) {
         seg.push(o[i]);
         ctype.push(this.ctype_(o[i]));
       }
+
       seg.push("E1");
       seg.push("E2");
       seg.push("E3");
       ctype.push("O");
       ctype.push("O");
       ctype.push("O");
+
       var word = seg[3];
       var p1 = "U";
       var p2 = "U";
       var p3 = "U";
+
       for (var i = 4; i < seg.length - 3; ++i) {
         var score = this.BIAS__;
         var w1 = seg[i - 3];
